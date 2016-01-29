@@ -1,0 +1,15 @@
+{
+    "name": "drips/http",
+    "description": "Objektorientierte Zugriffmöglichkeiten auf HTTP-Komponenten (Session, Cookie, Get, Post, usw.)",
+    "keywords": ["http"],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4",
+        "drips/datastructures": ">=0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Drips\\HTTP\\": "src"
+        }
+    }
+}

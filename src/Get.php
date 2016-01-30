@@ -2,7 +2,7 @@
 
 namespace Drips\HTTP;
 
-class Cookie
+class Get
 {
-    
+
 }

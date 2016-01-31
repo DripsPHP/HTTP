@@ -9,7 +9,7 @@ use PHPUnit_Framework_TestCase;
 use Drips\HTTP\Session;
 use StdClass;
 
-class TestSession extends PHPUnit_Framework_TestCase
+class SessionTest extends PHPUnit_Framework_TestCase
 {
     public function testSession()
     {

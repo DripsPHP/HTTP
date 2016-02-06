@@ -36,8 +36,9 @@ class Session implements IDataCollection
      *
      * @param string $id Die ID unter der die Session-Daten gespeichert werden sollen
      */
-    public function __construct($id = "DRIPS")
+    public function __construct($id = "DRIPS", $lifetime = 600, $path = null, $domain = null, $secure = false, $httponly = false)
     {
+        session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
         session_name($id);
         $this->id = $id;
         $this->id_info = $this->id."_INFO";

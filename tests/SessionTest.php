@@ -41,6 +41,30 @@ class SessionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($session->get("obj"), $obj);
     }
 
+    public function testDelete()
+    {
+        $collection = new Session;
+        $this->assertFalse($collection->delete("key"));
+        $this->assertFalse($collection->has("key"));
+        $collection->set("key", 123);
+        $this->assertTrue($collection->has("key"));
+        $this->assertTrue($collection->delete("key"));
+        $this->assertFalse($collection->has("key"));
+    }
+
+    public function testArrayAccess()
+    {
+        $collection = new Session;
+        $collection[] = "nulltes";
+        $this->assertEquals(count($collection), 1);
+        $this->assertFalse(isset($collection["töst"]));
+        $collection["töst"] = "EINZ";
+        $this->assertTrue(isset($collection["töst"]));
+        $this->assertEquals($collection["töst"], "EINZ");
+        unset($collection["töst"]);
+        $this->assertFalse(isset($collection["töst"]));
+    }
+
     public function testStorage()
     {
         $session = new Session();

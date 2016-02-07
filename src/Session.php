@@ -60,8 +60,7 @@ class Session implements IDataCollection
                 if($expire){
                     $this->setSessionInfo($key, "expire", -1);
                 } elseif($expire == -1) {
-                    unset($_SESSION[$this->id_info][$key]);
-                    unset($_SESSION[$this->id][$key]);
+                    $this->delete($key);
                 }
             }
         }
@@ -144,6 +143,23 @@ class Session implements IDataCollection
     }
 
     /**
+     * Entfernt den gesetzten Wert, sofern er bereits vorhanden ist.
+     *
+     * @param string $key Der Schlüssel der gelöscht werden soll
+     *
+     * @return bool
+     */
+    public function delete($key)
+    {
+        if($this->has($key)){
+            unset($_SESSION[$this->id_info][$key]);
+            unset($_SESSION[$this->id][$key]);
+           return true;
+        }
+        return false;
+    }
+
+    /**
      * Zuständig für den direkten Zugriff auf die Session.
      * Setzt einen Wert für einen zugehörigen Schlüssel.
      *
@@ -201,5 +217,25 @@ class Session implements IDataCollection
             return $_SESSION[$this->id_info][$key][$name];
         }
         return null;
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+
+    public function offsetExists($offset)
+    {
+       return $this->has($offset);
+    }
+
+    public function offsetUnset($offset)
+    {
+       $this->delete($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+       return $this->get($offset);
     }
 }

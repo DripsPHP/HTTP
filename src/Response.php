@@ -34,7 +34,7 @@ class Response
      *
      * @var string
      */
-    protected $type = 'text/html';
+    public $type = 'text/html';
 
     /**
      * Beinhaltet den HTTP-Statuscode der zurückgegeben werden soll.
@@ -42,21 +42,21 @@ class Response
      *
      * @var int
      */
-    protected $status = 200;
+    public $status = 200;
 
     /**
      * Beinhaltet Caching-Informationen (Cache-Control)
      *
      * @var string
      */
-    protected $cache = 'max-age=0';
+    public $cache = 'max-age=0';
 
     /**
      * Beinhaltet den eigentlichen Body bzw. Inhalt des HTTP-Responses.
      *
      * @var string
      */
-    protected $body = '';
+    public $body = '';
 
     private function __construct()
     {
@@ -69,24 +69,6 @@ class Response
     public function __destruct()
     {
         $this->send();
-    }
-
-    /**
-     * Setzt den Body bzw. Inhalt des Responses.
-     */
-    public function setBody($body)
-    {
-        $this->body = $body;
-    }
-
-    /**
-     * Liefert den aktuellen Body bzw. Inhalt des Responses zurück.
-     *
-     * @return string
-     */
-    public function getBody()
-    {
-        return $this->body;
     }
 
     /**
@@ -116,7 +98,7 @@ class Response
             $this->setHeader('Content-Type', $this->type);
             $this->setHeader('Cache-Control', $this->cache);
             http_response_code($this->status);
-            echo $this->getBody();
+            echo $this->body;
 
             return true;
         }

@@ -4,17 +4,21 @@
  * Created by Prowect
  * Author: Raffael Kessler
  * Date: 02.11.2015 - 10:00
- * Copyright: Prowect
+ * Copyright: Prowect.
  */
-
 namespace Drips\HTTP;
 
 use Drips\DataStructures\IDataCollection;
 
+/**
+ * Class Session.
+ *
+ * $_SESSION mit erweiterter Funktionalität und erhöhter Sicherheit.
+ */
 class Session implements IDataCollection
 {
     /**
-     * Beinhaltet eine ID unter der die Session-Daten gespeichert werden
+     * Beinhaltet eine ID unter der die Session-Daten gespeichert werden.
      *
      * @var string
      */
@@ -22,7 +26,7 @@ class Session implements IDataCollection
 
     /**
      * Beinhaltet eine ID unter der id Informationen zu den Session-Daten
-     * gespeichert werden
+     * gespeichert werden.
      *
      * @var string
      */
@@ -36,13 +40,13 @@ class Session implements IDataCollection
      *
      * @param string $id Die ID unter der die Session-Daten gespeichert werden sollen
      */
-    public function __construct($id = "DRIPS", $lifetime = 600, $path = null, $domain = null, $secure = false, $httponly = false)
+    public function __construct($id = 'DRIPS', $lifetime = 600, $path = null, $domain = null, $secure = false, $httponly = false)
     {
         session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
         session_name($id);
         $this->id = $id;
-        $this->id_info = $this->id."_INFO";
-        if(session_status() != PHP_SESSION_ACTIVE){
+        $this->id_info = $this->id.'_INFO';
+        if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
         }
         $this->cleanup();
@@ -54,12 +58,12 @@ class Session implements IDataCollection
      */
     private function cleanup()
     {
-        if(isset($_SESSION[$this->id_info])){
-            foreach($_SESSION[$this->id_info] as $key => $val){
-                $expire = $this->getSessionInfo($key, "expire");
-                if($expire){
-                    $this->setSessionInfo($key, "expire", -1);
-                } elseif($expire == -1) {
+        if (isset($_SESSION[$this->id_info])) {
+            foreach ($_SESSION[$this->id_info] as $key => $val) {
+                $expire = $this->getSessionInfo($key, 'expire');
+                if ($expire) {
+                    $this->setSessionInfo($key, 'expire', -1);
+                } elseif ($expire == -1) {
                     $this->delete($key);
                 }
             }
@@ -98,15 +102,17 @@ class Session implements IDataCollection
      */
     public function get($key)
     {
-        if($this->has($key)){
+        if ($this->has($key)) {
             $val = $this->getSession($key);
             $unserialized = @unserialize($val);
-            if($unserialized !== false){
+            if ($unserialized !== false) {
                 return $unserialized;
             }
+
             return $val;
         }
-        return null;
+
+        return;
     }
 
     /**
@@ -116,9 +122,10 @@ class Session implements IDataCollection
      */
     public function getAll()
     {
-        if(isset($_SESSION[$this->id])){
+        if (isset($_SESSION[$this->id])) {
             return $_SESSION[$this->id];
         }
+
         return array();
     }
 
@@ -127,18 +134,18 @@ class Session implements IDataCollection
      * Wird $expire gesetzt, so hat die Information nur zeitlich beschränkte
      * Gültigkeit.
      *
-     * @param string $key Der Schlüssel hinter dem die Information hinterlegt werden soll
-     * @param mixed $val Der Wert der in der Session gespeichert werden soll
-     * @param mixed $expire Gibt an ob die Information ablaufen soll
+     * @param string $key    Der Schlüssel hinter dem die Information hinterlegt werden soll
+     * @param mixed  $val    Der Wert der in der Session gespeichert werden soll
+     * @param mixed  $expire Gibt an ob die Information ablaufen soll
      */
     public function set($key, $val, $expire = null)
     {
-        if(is_object($val)){
+        if (is_object($val)) {
             $val = serialize($val);
         }
         $this->setSession($key, $val);
-        if($expire != null){
-            $this->setSessionInfo($key, "expire", true);
+        if ($expire != null) {
+            $this->setSessionInfo($key, 'expire', true);
         }
     }
 
@@ -151,11 +158,13 @@ class Session implements IDataCollection
      */
     public function delete($key)
     {
-        if($this->has($key)){
+        if ($this->has($key)) {
             unset($_SESSION[$this->id_info][$key]);
             unset($_SESSION[$this->id][$key]);
-           return true;
+
+            return true;
         }
+
         return false;
     }
 
@@ -164,7 +173,7 @@ class Session implements IDataCollection
      * Setzt einen Wert für einen zugehörigen Schlüssel.
      *
      * @param string $key Der Schlüssel hinter dem die Information hinterlegt werden soll
-     * @param mixed $val Der Wert der in der Session gespeichert werden soll
+     * @param mixed  $val Der Wert der in der Session gespeichert werden soll
      */
     private function setSession($key, $val)
     {
@@ -174,13 +183,13 @@ class Session implements IDataCollection
     /**
      * Dient zum Setzen von Zusatzinformationen für die Session-Daten.
      *
-     * @param string $key Der Schlüssel für die dazugehörige Session-Information
+     * @param string $key  Der Schlüssel für die dazugehörige Session-Information
      * @param string $name Der Name der Zusatzinformation
-     * @param mixed $val Der Wert der Zusatzinformation
+     * @param mixed  $val  Der Wert der Zusatzinformation
      */
     private function setSessionInfo($key, $name, $val)
     {
-        if($this->has($key)){
+        if ($this->has($key)) {
             $_SESSION[$this->id_info][$key][$name] = $val;
         }
     }
@@ -203,20 +212,22 @@ class Session implements IDataCollection
      * Wird kein Name angegeben so werden alle Zusatzinformationen der Session-
      * Daten zurückgeliefert.
      *
-     * @param string $key Der Schlüssel für die dazugehörige Session-Information
+     * @param string $key  Der Schlüssel für die dazugehörige Session-Information
      * @param string $name Der Name der Zusatzinformation
      *
      * @return mixed
      */
     private function getSessionInfo($key, $name = null)
     {
-        if($this->has($key)){
-            if($name == null){
+        if ($this->has($key)) {
+            if ($name == null) {
                 return $_SESSION[$this->id_info][$key];
             }
+
             return $_SESSION[$this->id_info][$key][$name];
         }
-        return null;
+
+        return;
     }
 
     public function offsetSet($offset, $value)
@@ -226,16 +237,16 @@ class Session implements IDataCollection
 
     public function offsetExists($offset)
     {
-       return $this->has($offset);
+        return $this->has($offset);
     }
 
     public function offsetUnset($offset)
     {
-       $this->delete($offset);
+        $this->delete($offset);
     }
 
     public function offsetGet($offset)
     {
-       return $this->get($offset);
+        return $this->get($offset);
     }
 }

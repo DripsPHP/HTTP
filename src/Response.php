@@ -16,40 +16,12 @@ namespace Drips\HTTP;
 class Response
 {
     /**
-     * Beinhaltet die Response-Instanz (Singleton-Pattern).
-     *
-     * @var Response
-     */
-    private static $instance;
-
-    /**
-     * Speichert ob bereits ein Response gesendet wurde oder nicht.
-     *
-     * @var bool
-     */
-    private $sent = false;
-
-    /**
-     * Beinhaltet den Content-Type des HTTP-Responses.
-     *
-     * @var string
-     */
-    public $type = 'text/html';
-
-    /**
      * Beinhaltet den HTTP-Statuscode der zurückgegeben werden soll.
-     * 200 = OK
+     * 200 = OK.
      *
      * @var int
      */
     public $status = 200;
-
-    /**
-     * Beinhaltet Caching-Informationen (Cache-Control)
-     *
-     * @var string
-     */
-    public $cache = 'max-age=0';
 
     /**
      * Beinhaltet den eigentlichen Body bzw. Inhalt des HTTP-Responses.
@@ -58,30 +30,50 @@ class Response
      */
     public $body = '';
 
-    private function __construct()
-    {
-    }
-
-    private function __clone()
-    {
-    }
-
-    public function __destruct()
-    {
-        $this->send();
-    }
+    /**
+     * Beinhaltet die Header-Felder die  gesetzt werden sollen (beim Response).
+     *
+     * @var array
+     */
+    protected $headers = array(
+        'Content-Type' => 'text/html',
+        'Cache-Control' => 'max-age=0',
+    );
 
     /**
      * Fügt ein weiteres HTTP-Response-Header-Feld hinzu, sofern dies noch möglich
-     * ist. (wenn noch keine Header gesendet wurden)
+     * ist. (wenn noch keine Header gesendet wurden).
      *
-     * @param string $name Name des Header-Feldes, z.B.: Content-Type
+     * @param string $name  Name des Header-Feldes, z.B.: Content-Type
+     * @param string $value Wert des Header-Feldes, z.B.: text/html
+     */
+    public function setHttpHeader($name, $value)
+    {
+        if (!headers_sent()) {
+            header("$name: $value");
+        }
+    }
+
+    /**
+     * Setzt die Header-Informationen für einen Response (HTTP).
+     *
+     * @param string $name  Name des Header-Feldes, z.B.: Content-Type
      * @param string $value Wert des Header-Feldes, z.B.: text/html
      */
     public function setHeader($name, $value)
     {
-        if (!headers_sent()) {
-            header("$name: $value");
+        $this->headers[$name] = $value;
+    }
+
+    /**
+     * Entfernt das übergebene Header-Feld sofern dieses existiert.
+     *
+     * @param string $name Name des Response-Header-Feldes
+     */
+    public function unsetHeader($name)
+    {
+        if (array_key_exists($name, $this->headers)) {
+            unset($this->headers[$name]);
         }
     }
 
@@ -93,41 +85,11 @@ class Response
      */
     public function send()
     {
-        if (!$this->isSent()) {
-            $this->sent = true;
-            $this->setHeader('Content-Type', $this->type);
-            $this->setHeader('Cache-Control', $this->cache);
-            http_response_code($this->status);
-            echo $this->body;
-
-            return true;
+        foreach ($this->headers as $header => $value) {
+            $this->setHttpHeader($header, $value);
         }
-
-        return false;
-    }
-
-    /**
-     * Gibt zurück, ob der Response bereits abgesendet wurde.
-     *
-     * @return bool
-     */
-    public function isSent()
-    {
-        return $this->sent;
-    }
-
-    /**
-     * Erzeugt eine neue Instanz eines Response-Objektes bzw. liefert das bestehende
-     * zurück. (Singleton-Pattern).
-     *
-     * @return Response
-     */
-    public static function getInstance()
-    {
-        if (!isset(static::$instance)) {
-            static::$instance = new self();
-        }
-
-        return static::$instance;
+        http_response_code($this->status);
+        echo $this->body;
+        exit;
     }
 }

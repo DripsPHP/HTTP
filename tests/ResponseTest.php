@@ -9,12 +9,12 @@ use Drips\HTTP\Response;
 
 class ResponseTest extends PHPUnit_Framework_TestCase
 {
-
+    /**
+     * @runInSeparateProcess
+     */
     public function testResponse()
     {
-        $response = Response::getInstance();
-        $this->assertFalse($response->isSent());
+        $response = new Response;
         $response->send();
-        $this->assertTrue($response->isSent());
     }
 }

@@ -15,6 +15,8 @@ class ResponseTest extends PHPUnit_Framework_TestCase
     public function testResponse()
     {
         $response = new Response;
+        $this->assertFalse(Response::isSent());
         $response->send();
+        $this->assertTrue(Response::isSent());
     }
 }

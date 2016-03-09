@@ -41,6 +41,13 @@ class Response
     );
 
     /**
+     * Gibt an, ob bereits ein Response gesendet wurde oder nicht.
+     *
+     * @var bool
+     */
+    private static $sent = false;
+
+    /**
      * Fügt ein weiteres HTTP-Response-Header-Feld hinzu, sofern dies noch möglich
      * ist. (wenn noch keine Header gesendet wurden).
      *
@@ -85,11 +92,25 @@ class Response
      */
     public function send()
     {
-        foreach ($this->headers as $header => $value) {
-            $this->setHttpHeader($header, $value);
+        if(!static::isSent()){
+            foreach ($this->headers as $header => $value) {
+                $this->setHttpHeader($header, $value);
+            }
+            http_response_code($this->status);
+            echo $this->body;
+            static::$sent = true;
+            return true;
         }
-        http_response_code($this->status);
-        echo $this->body;
-        exit;
+        return false;
+    }
+
+    /**
+     * Gibt an ob bereits ein Response gesendet wurde oder nicht.
+     *
+     * @return bool
+     */
+    public static function isSent()
+    {
+        return static::$sent;
     }
 }

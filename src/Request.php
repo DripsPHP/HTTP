@@ -181,7 +181,7 @@ class Request
      *
      * @return bool
      */
-    public static function isValid()
+    public function isValid()
     {
         return self::isValidVerb($this->getVerb());
     }

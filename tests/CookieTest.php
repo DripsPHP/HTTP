@@ -15,6 +15,7 @@ class CookieTest extends PHPUnit_Framework_TestCase
     public function testCookie()
     {
         $cookies = new Cookie;
+        $this->assertFalse($cookies->delete("test"));
         $cookies->set("test", 123);
         $this->assertTrue($cookies->has("test"));
         $cookies->delete("test");

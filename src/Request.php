@@ -12,7 +12,7 @@ namespace Drips\HTTP;
  * Class Request.
  *
  * Diese Klasse dient als Container für Session, Get, Post, Server, Cookie, usw.
- * Außerdem enthält sie Informationen zum eigegangenen HTTP-Request.
+ * Außerdem enthält sie Informationen zum eingegangenen HTTP-Request.
  */
 class Request
 {

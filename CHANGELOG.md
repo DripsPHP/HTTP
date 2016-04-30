@@ -1,14 +1,14 @@
 # Changelog 
 
 
-## Version 0.1
+## Version 0.2.1
 
-Session hinzugefügt
+Response mit sent
 
 
-## Version 0.1.1
+## Version 0.2
 
-Request / Response hinzugefügt
+Reorganisation von Request & Response
 
 
 ## Version 0.1.2
@@ -16,10 +16,11 @@ Request / Response hinzugefügt
 Response gefixt
 
 
-## Version 0.2
+## Version 0.1.1
 
-Reorganisation von Request & Response
+Request / Response hinzugefügt
 
-## Version 0.2.1
 
-Response mit sent
+## Version 0.1
+
+Session hinzugefügt

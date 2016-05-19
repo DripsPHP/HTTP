@@ -26,6 +26,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($request->isPost());
 
         $_SERVER["REQUEST_METHOD"] = "POST";
+        $_SERVER["HTTP_ACCEPT"] = "text/html,application/json;q=0.9";
 
         $request = new Request;
         $this->assertTrue($request->isValid());
@@ -44,5 +45,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Request::isValidVerb("specialmethod"));
 
         $this->assertEquals(null, $request->nothing);
+        $this->assertEmpty($request->getAccept());
     }
 }

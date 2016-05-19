@@ -17,9 +17,9 @@ namespace Drips\HTTP;
 class Request
 {
     /**
-     * Beinhaltet alle gültigen Request-Methoden
+     * Beinhaltet alle gültigen Request-Methoden.
      */
-    public static $verbs = array("get", "post", "put", "delete", "patch");
+    public static $verbs = array('get', 'post', 'put', 'delete', 'patch');
 
     /**
      * Beinhaltet die registrieren "Informationen", wie z.B.: Session, Cookie, usw.
@@ -30,7 +30,7 @@ class Request
     private $container = array();
 
     /**
-     * Erzeugt eine neue Request-Instanz
+     * Erzeugt eine neue Request-Instanz.
      */
     public function __construct()
     {
@@ -153,21 +153,43 @@ class Request
     }
 
     /**
-     * Liefert die $_SERVER['REQUEST_METHOD'] des aktuellen Requests (lowercase)
+     * Liefert die $_SERVER['REQUEST_METHOD'] des aktuellen Requests (lowercase).
      *
      * @return string
      */
     public function getVerb()
     {
-        if(isset($this->server)){
+        if (isset($this->server)) {
             return strtolower($this->server->get('REQUEST_METHOD'));
         }
     }
 
     /**
+     * Gibt die akzeptierten Formate (MIME) der HTTP-Anfrage zurück (HTTP_ACCEPT).
+     *
+     * @return array
+     */
+    public function getAccept()
+    {
+        $accept = array();
+        if (isset($this->server)) {
+            $parts = explode(',', $this->server->get('HTTP_ACCEPT'));
+            foreach ($parts as $part) {
+                $type_parts = explode(';', $part);
+                $type = $type_parts[0];
+                if ($type != '*/*') {
+                    $accept[] = $type;
+                }
+            }
+        }
+
+        return $accept;
+    }
+
+    /**
      * Prüft ob die übergebene Request-Methode gültig ist.
      *
-     * @param  string $verb z.B.: get, post, put, ...
+     * @param string $verb z.B.: get, post, put, ...
      *
      * @return bool
      */
@@ -177,7 +199,7 @@ class Request
     }
 
     /**
-     * Gibt zurück ob sich das Request-Objekt in einem gültigen Zustand ist
+     * Gibt zurück ob sich das Request-Objekt in einem gültigen Zustand ist.
      *
      * @return bool
      */
@@ -187,15 +209,15 @@ class Request
     }
 
     /**
-     * Gibt das jeweilige Objekt des Requests zurück, sofern es existiert
+     * Gibt das jeweilige Objekt des Requests zurück, sofern es existiert.
      *
-     * @param string $name  Name des Objektes
+     * @param string $name Name des Objektes
      *
      * @return mixed
      */
     public function __get($name)
     {
-        if($this->hasObject($name)){
+        if ($this->hasObject($name)) {
             return $this->container[$name];
         }
     }

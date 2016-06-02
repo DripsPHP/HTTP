@@ -22,5 +22,6 @@ class Post extends Get
     public function __construct()
     {
         $this->collection = $_POST;
+        $_POST = array();
     }
 }

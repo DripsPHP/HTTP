@@ -24,5 +24,6 @@ class Get extends DataCollection
     public function __construct()
     {
         $this->collection = $_GET;
+        $_GET = array();
     }
 }

@@ -11,9 +11,10 @@ class GetTest extends PHPUnit_Framework_TestCase
         $key = "key";
         $value = "value";
         $_GET[$key] = $value;
+        $tmp = $_GET;
         $get = new Get;
         $this->assertTrue($get->has($key));
-        $this->assertEquals($get->getAll(), $_GET);
+        $this->assertEquals($get->getAll(), $tmp);
         $this->assertEquals($get->get($key), $value);
     }
 }

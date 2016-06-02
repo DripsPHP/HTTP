@@ -29,10 +29,21 @@ class Request
      */
     private $container = array();
 
+    private static $instance;
+
+    public static function getInstance()
+    {
+        if(static::$instance === null){
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
+
     /**
      * Erzeugt eine neue Request-Instanz.
      */
-    public function __construct()
+    private function __construct()
     {
         $this->register('cookie', new Cookie());
         $this->register('get', new Get());
@@ -42,6 +53,8 @@ class Request
             $this->register('post', new Post());
         }
     }
+
+    private function __clone(){}
 
     /**
      * Registriert ein neues Objekt im Request.

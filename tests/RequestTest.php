@@ -10,25 +10,24 @@ class RequestTest extends PHPUnit_Framework_TestCase
 {
     public function testRequest()
     {
-        $request = new Request;
-        $this->assertFalse($request->isPost());
+        $_SERVER["REQUEST_METHOD"] = "POST";
+        $request = Request::getInstance();
+        $this->assertTrue($request->isPost());
         $this->assertFalse($request->isGet());
         $this->assertFalse($request->isPatch());
         $this->assertFalse($request->isDelete());
         $this->assertFalse($request->isPut());
-        $this->assertFalse($request->isVerb("post"));
+        $this->assertTrue($request->isVerb("post"));
         $this->assertFalse(isset($request->auth));
         $request->auth = null;
         $this->assertTrue(isset($request->auth));
         unset($request->auth);
         $this->assertFalse(isset($request->auth));
         $this->assertTrue($request->get instanceof Get);
-        $this->assertFalse($request->isPost());
 
-        $_SERVER["REQUEST_METHOD"] = "POST";
+
         $_SERVER["HTTP_ACCEPT"] = "text/html,application/json;q=0.9";
 
-        $request = new Request;
         $this->assertTrue($request->isValid());
         $this->assertTrue($request->isPost());
 

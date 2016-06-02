@@ -24,6 +24,7 @@ class Cookie extends DataCollection
     public function __construct()
     {
         $this->collection = $_COOKIE;
+        $_COOKIE = array();
     }
 
     /**

@@ -19,5 +19,6 @@ class Server extends Get
     public function __construct()
     {
         $this->collection = $_SERVER;
+        $_SERVER = array();
     }
 }

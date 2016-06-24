@@ -52,10 +52,10 @@ class Session implements IDataCollection
         session_name($id);
         $this->id = $id;
         $this->id_info = $this->id.'_INFO';
-        if (session_status() != PHP_SESSION_ACTIVE) {
+        if (session_status() != PHP_SESSION_ACTIVE && !headers_sent()) {
             session_start();
         }
-        $this->collection = $_SESSION;
+        $this->collection = @$_SESSION;
         $this->cleanup();
     }
 

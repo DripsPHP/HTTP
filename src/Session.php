@@ -107,13 +107,7 @@ class Session implements IDataCollection
     public function get($key)
     {
         if ($this->has($key)) {
-            $val = $this->getSession($key);
-            $unserialized = @unserialize($val);
-            if ($unserialized !== false) {
-                return $unserialized;
-            }
-
-            return $val;
+            return $this->getSession($key);
         }
 
         return;
@@ -141,9 +135,6 @@ class Session implements IDataCollection
      */
     public function set($key, $val)
     {
-        if (is_object($val)) {
-            $val = serialize($val);
-        }
         $this->setSession($key, $val);
     }
 

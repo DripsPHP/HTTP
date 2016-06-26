@@ -49,12 +49,8 @@ class Session implements IDataCollection
      */
     public function __construct($id = 'DRIPS')
     {
-        session_name($id);
         $this->id = $id;
         $this->id_info = $this->id.'_INFO';
-        if (session_status() != PHP_SESSION_ACTIVE && !headers_sent()) {
-            session_start();
-        }
         $this->collection = @$_SESSION;
         $this->cleanup();
     }

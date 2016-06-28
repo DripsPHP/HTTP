@@ -45,57 +45,16 @@ class Request
      */
     private function __construct()
     {
-        $this->register('cookie', new Cookie());
-        $this->register('get', new Get());
-        $this->register('server', new Server());
-        $this->register('session', new Session());
+        $this->cookie = new Cookie;
+        $this->get = new Get;
+        $this->server = new Server;
+        $this->session = new Session;
         if ($this->isPost()) {
-            $this->register('post', new Post());
+            $this->post = new Post;
         }
     }
 
     private function __clone(){}
-
-    /**
-     * Registriert ein neues Objekt im Request.
-     *
-     * @param string $name Name des Objektes und dem es "angesprochen" werden soll.
-     * @param mixed  $obj  Eigentliches Objekt, das eingefügt werden soll.
-     */
-    private function register($name, $obj)
-    {
-        $this->container[$name] = $obj;
-    }
-
-    /**
-     * Prüft ob ein Objekt hinter dem angegebenen Namen hinterlegt ist.
-     *
-     * @param string $name Name des Objektes, nachdem gesucht werden soll.
-     *
-     * @return bool
-     */
-    private function hasObject($name)
-    {
-        return array_key_exists($name, $this->container);
-    }
-
-    /**
-     * Entfernt ein bereits bestehendes Objekt, sofern es existiert.
-     *
-     * @param string $name Name des Objektes, das entfernt werden soll.
-     *
-     * @return bool
-     */
-    private function unregister($name)
-    {
-        if ($this->hasObject($name)) {
-            unset($this->container[$name]);
-
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * Gibt zurück, ob es sich bei dem aktuellen HTTP-Request um einen GET-Request
@@ -219,54 +178,5 @@ class Request
     public function isValid()
     {
         return self::isValidVerb($this->getVerb());
-    }
-
-    /**
-     * Gibt das jeweilige Objekt des Requests zurück, sofern es existiert.
-     *
-     * @param string $name Name des Objektes
-     *
-     * @return mixed
-     */
-    public function __get($name)
-    {
-        if ($this->hasObject($name)) {
-            return $this->container[$name];
-        }
-    }
-
-    /**
-     * Registriert ein neues Objekt im Request.
-     *
-     * @param string $name Name des Objektes und dem es "angesprochen" werden soll.
-     * @param mixed  $obj  Eigentliches Objekt, das eingefügt werden soll.
-     */
-    public function __set($name, $obj)
-    {
-        $this->register($name, $obj);
-    }
-
-    /**
-     * Prüft ob ein Objekt hinter dem angegebenen Namen hinterlegt ist.
-     *
-     * @param string $name Name des Objektes, nachdem gesucht werden soll.
-     *
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        return $this->hasObject($name);
-    }
-
-    /**
-     * Entfernt ein bereits bestehendes Objekt, sofern es existiert.
-     *
-     * @param string $name Name des Objektes, das entfernt werden soll.
-     *
-     * @return bool
-     */
-    public function __unset($name)
-    {
-        $this->unregister($name);
     }
 }

@@ -64,7 +64,7 @@ class Session implements IDataCollection
         if (isset($this->collection[$this->id_info])) {
             foreach ($this->collection[$this->id_info] as $key => $val) {
                 $expire = $this->getSessionInfo($key, 'expire');
-                if ($expire) {
+                if ($expire === true) {
                     $this->setSessionInfo($key, 'expire', -1);
                 } elseif ($expire == -1) {
                     $this->delete($key);
@@ -79,7 +79,7 @@ class Session implements IDataCollection
      */
     public function __destruct()
     {
-        $this->cleanup();
+        //$this->cleanup();
         $_SESSION = $this->collection;
     }
 

@@ -52,7 +52,6 @@ class Session implements IDataCollection
         $this->id = $id;
         $this->id_info = $this->id.'_INFO';
         $this->collection = @$_SESSION;
-        $this->cleanup();
     }
 
     /**
@@ -79,7 +78,7 @@ class Session implements IDataCollection
      */
     public function __destruct()
     {
-        //$this->cleanup();
+        $this->cleanup();
         $_SESSION = $this->collection;
     }
 

@@ -11,6 +11,8 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testRequest()
     {
         $_SERVER["REQUEST_METHOD"] = "POST";
+        $_SERVER["HTTP_ACCEPT"] = "text/html,application/json;q=0.9";
+
         $request = Request::getInstance();
         $this->assertTrue($request->isPost());
         $this->assertFalse($request->isGet());
@@ -19,14 +21,11 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($request->isPut());
         $this->assertTrue($request->isVerb("post"));
         $this->assertFalse(isset($request->auth));
-        $request->auth = null;
+        $request->auth = true;
         $this->assertTrue(isset($request->auth));
         unset($request->auth);
         $this->assertFalse(isset($request->auth));
         $this->assertTrue($request->get instanceof Get);
-
-
-        $_SERVER["HTTP_ACCEPT"] = "text/html,application/json;q=0.9";
 
         $this->assertTrue($request->isValid());
         $this->assertTrue($request->isPost());
@@ -38,12 +37,10 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(isset($request->server));
         unset($request->server);
         $this->assertFalse(isset($request->server));
-        $this->assertEquals(null, $request->server);
 
         $this->assertTrue(Request::isValidVerb("post"));
         $this->assertFalse(Request::isValidVerb("specialmethod"));
 
-        $this->assertEquals(null, $request->nothing);
         $this->assertEmpty($request->getAccept());
     }
 }

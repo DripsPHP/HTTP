@@ -21,14 +21,6 @@ class Request
      */
     public static $verbs = array('get', 'post', 'put', 'delete', 'patch');
 
-    /**
-     * Beinhaltet die registrieren "Informationen", wie z.B.: Session, Cookie, usw.
-     * eines eigegangenen HTTP-Requests.
-     *
-     * @var array
-     */
-    private $container = array();
-
     private static $instance;
 
     public static function getInstance()

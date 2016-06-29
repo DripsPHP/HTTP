@@ -51,7 +51,7 @@ class Session implements IDataCollection
     {
         $this->id = $id;
         $this->id_info = $this->id.'_INFO';
-        $this->collection = @$_SESSION;
+        $this->collection = isset($_SESSION) ? $_SESSION : array();
     }
 
     /**

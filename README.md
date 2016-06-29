@@ -57,3 +57,41 @@ Es können auch alle Session-Informationen des Objektes abgefragt werden:
 <?php
 $data = $session->getAll();
 ```
+
+
+## Cookies
+
+Ermöglicht erweiterte Funktionalität mit Cookies. Funktioniert grundsätzlich
+genau wie der Zugriff über `$_COOKIE`, ist jedoch sicherer und funktionsreicher.
+
+### Verwendung
+
+`$cookies->set()` setzt ein neues Cookie. Es muss dabei nur die Dauer angegeben werden.
+
+```php
+<?php
+use Drips\HTTP\Cookie;
+
+$cookies->set("test", 123);
+```
+
+Mit `$cookies->has()` kann überprüft werden, ob das Cookie bereits existiert.
+```php
+<?php
+use Drips\HTTP\Cookie;
+
+$cookies->has("test")
+if($cookies->has("test")){
+    // Cookie test existiert
+} else {
+    // Cookie test existiert nicht
+}
+```
+
+Cookies können mithilfe von `$cookies->delete()` gelöscht werden. Gibt true/false zurück, ob der Löschvorgang erfolgreich war.
+```php
+<?php
+use Drips\HTTP\Cookie;
+
+$cookies->delete("test");
+```

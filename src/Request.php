@@ -177,4 +177,18 @@ class Request
     {
         return self::isValidVerb($this->getVerb());
     }
+
+    /**
+     * Gibt die Daten zurück die an den Server gesendet wurden, z.B.: $_GET oder
+     * $_POST.
+     *
+     * @return mixed
+     */
+    public function getData()
+    {
+        if($this->isGet()){
+            return $this->get;
+        }
+        return $this->post;
+    }
 }

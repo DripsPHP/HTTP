@@ -187,8 +187,19 @@ class Request
     public function getData()
     {
         if($this->isGet()){
-            return $this->get;
+            $data = $this->get;
         }
-        return $this->post;
+        $data = $this->post;
+        if($this->session->has('_request_data')){
+            foreach($this->session->get('_request_data') as $key => $val){
+                $data->set($key, $val);
+            }
+        }
+        return $data;
+    }
+
+    public function flashData()
+    {
+        $this->session->flash('_request_data', $this->getData());
     }
 }

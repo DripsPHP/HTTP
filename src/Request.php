@@ -188,8 +188,9 @@ class Request
     {
         if($this->isGet()){
             $data = $this->get;
+        } else {
+            $data = $this->post;
         }
-        $data = $this->post;
         if($this->session->has('_request_data')){
             foreach($this->session->get('_request_data') as $key => $val){
                 $data->set($key, $val);

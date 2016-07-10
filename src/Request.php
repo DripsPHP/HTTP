@@ -43,6 +43,10 @@ class Request
         $this->session = new Session;
         if ($this->isPost()) {
             $this->post = new Post;
+            if($this->post->has('_method')){
+                $method = strtoupper($this->post->get('_method'));
+                $this->server->set('REQUEST_METHOD', $method);
+            }
         }
     }
 

@@ -44,8 +44,10 @@ class Request
         if ($this->isPost()) {
             $this->post = new Post;
             if($this->post->has('_method')){
-                $method = strtoupper($this->post->get('_method'));
-                $this->server->set('REQUEST_METHOD', $method);
+                $method = strtolower($this->post->get('_method'));
+                if(in_array($method, static::$verbs)){
+                    $this->server->set('REQUEST_METHOD', strtoupper($method));
+                }
             }
         }
     }

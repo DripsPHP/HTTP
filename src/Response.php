@@ -8,6 +8,8 @@
  */
 namespace Drips\HTTP;
 
+use Drips\Utils\Event;
+
 /**
  * Class Response.
  *
@@ -15,6 +17,8 @@ namespace Drips\HTTP;
  */
 class Response
 {
+    use Event;
+
     /**
      * Beinhaltet den HTTP-Statuscode der zurückgegeben werden soll.
      * 200 = OK.
@@ -93,6 +97,7 @@ class Response
     public function send()
     {
         if(!static::isSent()){
+            static::call('send', $this);
             foreach ($this->headers as $header => $value) {
                 $this->setHttpHeader($header, $value);
             }
@@ -112,5 +117,10 @@ class Response
     public static function isSent()
     {
         return static::$sent;
+    }
+
+    public function getBody()
+    {
+        return $this->body;
     }
 }

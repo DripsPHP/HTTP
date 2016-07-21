@@ -118,9 +118,4 @@ class Response
     {
         return static::$sent;
     }
-
-    public function getBody()
-    {
-        return $this->body;
-    }
 }

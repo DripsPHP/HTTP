@@ -55,7 +55,7 @@ class Response
      * Fügt ein weiteres HTTP-Response-Header-Feld hinzu, sofern dies noch möglich
      * ist. (wenn noch keine Header gesendet wurden).
      *
-     * @param string $name  Name des Header-Feldes, z.B.: Content-Type
+     * @param string $name Name des Header-Feldes, z.B.: Content-Type
      * @param string $value Wert des Header-Feldes, z.B.: text/html
      */
     public function setHttpHeader($name, $value)
@@ -68,7 +68,7 @@ class Response
     /**
      * Setzt die Header-Informationen für einen Response (HTTP).
      *
-     * @param string $name  Name des Header-Feldes, z.B.: Content-Type
+     * @param string $name Name des Header-Feldes, z.B.: Content-Type
      * @param string $value Wert des Header-Feldes, z.B.: text/html
      */
     public function setHeader($name, $value)
@@ -96,7 +96,7 @@ class Response
      */
     public function send()
     {
-        if(!static::isSent()){
+        if (!static::isSent()) {
             static::call('send', $this);
             foreach ($this->headers as $header => $value) {
                 $this->setHttpHeader($header, $value);

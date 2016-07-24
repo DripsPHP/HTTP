@@ -35,12 +35,12 @@ class Cookie extends DataCollection
      * die Dauer, da die time() automatisch hinzu addiert wird.
      *
      * @param string $key
-     * @param mixed  $value
-     * @param int    $expire
+     * @param mixed $value
+     * @param int $expire
      * @param string $path
      * @param string $domain
-     * @param bool   $secure
-     * @param bool   $httponly
+     * @param bool $secure
+     * @param bool $httponly
      *
      * @return bool
      */

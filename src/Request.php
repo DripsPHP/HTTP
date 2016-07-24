@@ -25,7 +25,7 @@ class Request
 
     public static function getInstance()
     {
-        if(static::$instance === null){
+        if (static::$instance === null) {
             static::$instance = new static;
         }
 
@@ -43,16 +43,16 @@ class Request
         $this->session = new Session;
         if ($this->isPost()) {
             $this->post = new Post;
-            if($this->post->has('_method')){
+            if ($this->post->has('_method')) {
                 $method = strtolower($this->post->get('_method'));
-                if(in_array($method, static::$verbs)){
+                if (in_array($method, static::$verbs)) {
                     $this->server->set('REQUEST_METHOD', strtoupper($method));
                 }
             }
         }
     }
 
-    private function __clone(){}
+    private function __clone() {}
 
     /**
      * Gibt zurück, ob es sich bei dem aktuellen HTTP-Request um einen GET-Request
@@ -125,17 +125,18 @@ class Request
     /**
      * Liefert die $_SERVER['REQUEST_METHOD'] des aktuellen Requests (lowercase).
      *
-     * @return string
+     * @return string|null
      */
     public function getVerb()
     {
         if (isset($this->server)) {
             return strtolower($this->server->get('REQUEST_METHOD'));
         }
+        return null;
     }
 
     /**
-     * Gibt die akzeptierten Formate (MIME) der HTTP-Anfrage zurück (HTTP_ACCEPT).
+     * Gibt die akzeptierten Formate (MIME) der HTTP-Anfrage als Array zurück (HTTP_ACCEPT).
      *
      * @return array
      */
@@ -186,19 +187,23 @@ class Request
      */
     public function getData()
     {
-        if($this->isGet()){
+        if ($this->isGet()) {
             $data = $this->get;
         } else {
             $data = $this->post;
         }
-        if($this->session->has('_request_data')){
-            foreach($this->session->get('_request_data')->getAll() as $key => $val){
+        if ($this->session->has('_request_data')) {
+            foreach ($this->session->get('_request_data')->getAll() as $key => $val) {
                 $data->set($key, $val);
             }
         }
         return $data;
     }
 
+    /**
+     * Flasht die Formulardaten/Requestdaten in die Session, sodass diese auch beim nächsten Seitenaufruf (z.B.: einer
+     * Umleitung) verfügbar sind.
+     */
     public function flashData()
     {
         $this->session->flash('_request_data', $this->getData());

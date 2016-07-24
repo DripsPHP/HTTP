@@ -50,7 +50,7 @@ class Session implements IDataCollection
     public function __construct($id = 'DRIPS')
     {
         $this->id = $id;
-        $this->id_info = $this->id.'_INFO';
+        $this->id_info = $this->id . '_INFO';
         $this->collection = isset($_SESSION) ? $_SESSION : array();
     }
 
@@ -129,8 +129,8 @@ class Session implements IDataCollection
     /**
      * Setzt einen Wert in der Session.
      *
-     * @param string $key    Der Schlüssel hinter dem die Information hinterlegt werden soll
-     * @param mixed  $val    Der Wert der in der Session gespeichert werden soll
+     * @param string $key Der Schlüssel hinter dem die Information hinterlegt werden soll
+     * @param mixed $val Der Wert der in der Session gespeichert werden soll
      */
     public function set($key, $val)
     {
@@ -141,8 +141,8 @@ class Session implements IDataCollection
      * Setzt einen Wert in der Session, der beim Aufruf der nächsten Seite
      * wieder gelöscht wird.
      *
-     * @param  string $key  Der Schlüssel hinter dem die Information hinterlegt werden soll
-     * @param  mixed  $val  Der Wert der in der Session gespeichert werden soll
+     * @param  string $key Der Schlüssel hinter dem die Information hinterlegt werden soll
+     * @param  mixed $val Der Wert der in der Session gespeichert werden soll
      */
     public function flash($key, $val)
     {
@@ -174,7 +174,7 @@ class Session implements IDataCollection
      * Setzt einen Wert für einen zugehörigen Schlüssel.
      *
      * @param string $key Der Schlüssel hinter dem die Information hinterlegt werden soll
-     * @param mixed  $val Der Wert der in der Session gespeichert werden soll
+     * @param mixed $val Der Wert der in der Session gespeichert werden soll
      */
     private function setSession($key, $val)
     {
@@ -184,9 +184,9 @@ class Session implements IDataCollection
     /**
      * Dient zum Setzen von Zusatzinformationen für die Session-Daten.
      *
-     * @param string $key  Der Schlüssel für die dazugehörige Session-Information
+     * @param string $key Der Schlüssel für die dazugehörige Session-Information
      * @param string $name Der Name der Zusatzinformation
-     * @param mixed  $val  Der Wert der Zusatzinformation
+     * @param mixed $val Der Wert der Zusatzinformation
      */
     private function setSessionInfo($key, $name, $val)
     {
@@ -213,7 +213,7 @@ class Session implements IDataCollection
      * Wird kein Name angegeben so werden alle Zusatzinformationen der Session-
      * Daten zurückgeliefert.
      *
-     * @param string $key  Der Schlüssel für die dazugehörige Session-Information
+     * @param string $key Der Schlüssel für die dazugehörige Session-Information
      * @param string $name Der Name der Zusatzinformation
      *
      * @return mixed
@@ -230,6 +230,8 @@ class Session implements IDataCollection
 
         return;
     }
+
+    // === [ ArrayAccess ] ===
 
     public function offsetSet($offset, $value)
     {

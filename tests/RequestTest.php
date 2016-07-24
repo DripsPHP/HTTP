@@ -2,9 +2,9 @@
 
 namespace tests;
 
-use PHPUnit_Framework_TestCase;
-use Drips\HTTP\Request;
 use Drips\HTTP\Get;
+use Drips\HTTP\Request;
+use PHPUnit_Framework_TestCase;
 
 class RequestTest extends PHPUnit_Framework_TestCase
 {

@@ -4,8 +4,8 @@ namespace tests;
 
 session_start();
 
-use PHPUnit_Framework_TestCase;
 use Drips\HTTP\Session;
+use PHPUnit_Framework_TestCase;
 use StdClass;
 
 class SessionTest extends PHPUnit_Framework_TestCase

@@ -2,12 +2,13 @@
 
 namespace tests;
 
-use PHPUnit_Framework_TestCase;
 use Drips\HTTP\Get;
+use PHPUnit_Framework_TestCase;
 
 class GetTest extends PHPUnit_Framework_TestCase
 {
-    public function testGet(){
+    public function testGet()
+    {
         $key = "key";
         $value = "value";
         $_GET[$key] = $value;

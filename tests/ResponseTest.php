@@ -2,8 +2,8 @@
 
 namespace tests;
 
-use PHPUnit_Framework_TestCase;
 use Drips\HTTP\Response;
+use PHPUnit_Framework_TestCase;
 
 class ResponseTest extends PHPUnit_Framework_TestCase
 {

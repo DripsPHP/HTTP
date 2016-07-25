@@ -34,9 +34,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         unset($request->nothing);
         $this->assertFalse(isset($request->nothing));
 
-        $this->assertTrue(isset($request->server));
-        unset($request->server);
-        $this->assertFalse(isset($request->server));
 
         $this->assertTrue(Request::isValidVerb("post"));
         $this->assertFalse(Request::isValidVerb("specialmethod"));
